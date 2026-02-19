@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FamilyHub Shopping List - Debug Mode</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        h1 {
+            color: #4ec9b0;
+        }
+        pre {
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 3px solid #4ec9b0;
+        }
+        .count {
+            font-size: 24px;
+            color: #ce9178;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 FamilyHub Shopping List - Debug Mode</h1>
+    <div class="count" id="count">Loading...</div>
+    <h2>Raw API Response:</h2>
+    <pre id="rawData">Fetching data...</pre>
+
+    <script>
+        async function loadDebug() {
+            try {
+                const res = await fetch('/api/list');
+                const data = await res.json();
+                
+                document.getElementById('count').textContent = `Items count: ${data.items.length}`;
+                document.getElementById('rawData').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('count').textContent = 'Error loading data';
+                document.getElementById('rawData').textContent = error.toString();
+            }
+        }
+        
+        loadDebug();
+    </script>
+</body>
+</html>

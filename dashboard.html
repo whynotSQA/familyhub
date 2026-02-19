@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FamilyHub Shopping List</title>
+    <style>
+        :root {
+            --bg1: #6e74e9;
+            --bg2: #6a57d6;
+            --panel: #ffffff;
+            --ink: #ffffff;
+            --muted: rgba(255,255,255,.85);
+            --cardGrad1: #4f7cf1;
+            --cardGrad2: #7647c9;
+            --btn: #4f7cf1;
+            --btn2: #6a57d6;
+            --btnText: #fff;
+            --shadow: 0 14px 40px rgba(20, 18, 60, .25);
+            --softShadow: 0 10px 26px rgba(20, 18, 60, .18);
+            --radiusXL: 26px;
+            --radiusL: 18px;
+            --radiusM: 14px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+            background: linear-gradient(180deg, var(--bg1), var(--bg2));
+            min-height: 100vh;
+            color: #111;
+        }
+
+        .wrap {
+            max-width: 1220px;
+            margin: 0 auto;
+            padding: 34px 18px 54px;
+        }
+
+        /* Header */
+        .brand {
+            text-align: center;
+            color: var(--ink);
+            margin-bottom: 28px;
+        }
+        .brand h1 {
+            margin: 0;
+            font-weight: 800;
+            font-size: clamp(32px, 4.2vw, 54px);
+            letter-spacing: .2px;
+            text-shadow: 0 6px 18px rgba(0,0,0,.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+        .brand h1 .icon {
+            font-size: .85em;
+            filter: drop-shadow(0 6px 10px rgba(0,0,0,.15));
+        }
+        .brand p {
+            margin: 10px 0 0;
+            font-size: clamp(14px, 1.6vw, 18px);
+            color: var(--muted);
+        }
+
+        /* Main panel */
+        .panel {
+            background: var(--panel);
+            border-radius: var(--radiusXL);
+            box-shadow: var(--shadow);
+            padding: 26px;
+            overflow: hidden;
+        }
+
+        /* Stat cards row */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+        .stat {
+            border-radius: var(--radiusL);
+            background: linear-gradient(135deg, var(--cardGrad1), var(--cardGrad2));
+            color: #fff;
+            box-shadow: var(--softShadow);
+            padding: 22px 18px;
+            min-height: 104px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .stat .num {
+            font-size: 44px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .stat .label {
+            font-size: 13px;
+            font-weight: 500;
+            opacity: .9;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radiusM);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(0,0,0,.12);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--btn), var(--btn2));
+            color: var(--btnText);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,.18);
+        }
+
+        .view-toggle {
+            display: flex;
+            background: #f5f5f7;
+            border-radius: var(--radiusM);
+            padding: 4px;
+            gap: 4px;
+        }
+        .view-toggle button {
+            padding: 10px 24px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        .view-toggle button.active {
+            background: linear-gradient(135deg, var(--btn), var(--btn2));
+            color: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,.15);
+        }
+        .view-toggle button:hover:not(.active) {
+            background: #e8e8ea;
+        }
+
+        /* List container */
+        .list {
+            background: #fafafa;
+            border-radius: var(--radiusL);
+            padding: 24px;
+            min-height: 200px;
+        }
+
+        .category {
+            margin-bottom: 28px;
+        }
+        .category:last-child {
+            margin-bottom: 0;
+        }
+        .category-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e5e5e7;
+        }
+
+        .item {
+            padding: 16px 12px;
+            border-bottom: 1px solid #f0f0f2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+            border-radius: 10px;
+        }
+        .item:hover {
+            background: #f5f5f7;
+        }
+        .item:last-child {
+            border-bottom: none;
+        }
+        .item-info {
+            flex: 1;
+        }
+        .item-name {
+            font-weight: 600;
+            color: #222;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        .item-meta {
+            font-size: 13px;
+            color: #999;
+        }
+        .item-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 12px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+        }
+        .btn-bought {
+            background: #34c759;
+            color: white;
+        }
+        .btn-bought:hover {
+            background: #2fb350;
+            transform: scale(1.05);
+        }
+        .btn-remove {
+            background: #ff3b30;
+            color: white;
+        }
+        .btn-remove:hover {
+            background: #e6342a;
+            transform: scale(1.05);
+        }
+
+        .store-group {
+            margin-bottom: 28px;
+            padding: 20px;
+            background: #f5f5f7;
+            border-radius: var(--radiusM);
+            border-left: 4px solid var(--btn);
+        }
+        .store-group:last-child {
+            margin-bottom: 0;
+        }
+        .store-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .view-toggle {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="brand">
+            <h1><span class="icon">🛒</span> FamilyHub Shopping</h1>
+            <p>Your smart family shopping assistant</p>
+        </div>
+
+        <div class="panel">
+            <div class="stats">
+                <div class="stat">
+                    <div class="num" id="totalItems">0</div>
+                    <div class="label">Total Items</div>
+                </div>
+                <div class="stat">
+                    <div class="num" id="totalCategories">0</div>
+                    <div class="label">Categories</div>
+                </div>
+                <div class="stat">
+                    <div class="num" id="purchasedToday">0</div>
+                    <div class="label">Purchased Today</div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-primary" onclick="loadList()">🔄 Refresh</button>
+                <div class="view-toggle">
+                    <button id="btnCategory" class="active" onclick="switchView('category')">📦 By Category</button>
+                    <button id="btnStore" onclick="switchView('store')">🏪 By Store</button>
+                </div>
+            </div>
+
+            <div class="list" id="listContainer">
+                <p style="color: #999;">Loading...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentView = 'category';
+
+        async function loadList() {
+            if (currentView === 'category') {
+                await loadByCategory();
+            } else {
+                await loadByStore();
+            }
+        }
+
+        async function loadByCategory() {
+            try {
+                const res = await fetch('/api/list');
+                const data = await res.json();
+
+                document.getElementById('totalItems').textContent = data.stats.total;
+                document.getElementById('totalCategories').textContent = data.stats.categories;
+                document.getElementById('purchasedToday').textContent = data.stats.purchasedToday;
+
+                renderByCategory(data.items);
+            } catch (error) {
+                document.getElementById('listContainer').innerHTML = '<p style="color: #ff3b30;">Failed to load shopping list</p>';
+            }
+        }
+
+        async function loadByStore() {
+            try {
+                const res = await fetch('/api/list-by-store');
+                const data = await res.json();
+
+                document.getElementById('totalItems').textContent = data.total;
+
+                renderByStore(data.byStore);
+            } catch (error) {
+                document.getElementById('listContainer').innerHTML = '<p style="color: #ff3b30;">Failed to load shopping list</p>';
+            }
+        }
+
+        function renderByCategory(items) {
+            const byCategory = {};
+            items.forEach(item => {
+                if (!byCategory[item.category]) byCategory[item.category] = [];
+                byCategory[item.category].push(item);
+            });
+
+            let html = '';
+            if (Object.keys(byCategory).length === 0) {
+                html = '<p style="color: #999;">购物清单是空的</p>';
+            } else {
+                for (const [category, catItems] of Object.entries(byCategory)) {
+                    const emoji = getCategoryEmoji(category);
+                    html += `<div class="category">
+                        <div class="category-title">${emoji} ${category} (${catItems.length})</div>`;
+                    catItems.forEach(item => {
+                        let itemText = item.name;
+                        if (item.quantity && item.quantity !== 1) {
+                            itemText += ` (${item.quantity}${item.unit ? ' ' + item.unit : ''})`;
+                        }
+                        html += `<div class="item">
+                            <div class="item-info">
+                                <div class="item-name">${itemText} ${item.preferred_store ? '📍 ' + item.preferred_store : ''}</div>
+                                <div class="item-meta">${item.added_by}, ${formatDate(item.added_at)}</div>
+                            </div>
+                            <div class="item-actions">
+                                <button class="btn-sm btn-bought" onclick="markBought(${item.id})">✓ Bought</button>
+                                <button class="btn-sm btn-remove" onclick="removeItem(${item.id})">✕ Remove</button>
+                            </div>
+                        </div>`;
+                    });
+                    html += '</div>';
+                }
+            }
+            document.getElementById('listContainer').innerHTML = html;
+        }
+
+        function renderByStore(byStore) {
+            let html = '';
+            if (Object.keys(byStore).length === 0) {
+                html = '<p style="color: #999;">购物清单是空的</p>';
+            } else {
+                for (const [store, categories] of Object.entries(byStore)) {
+                    const storeItems = Object.values(categories).flat();
+                    html += `<div class="store-group">
+                        <div class="store-title">📍 ${store} (${storeItems.length})</div>`;
+
+                    for (const [category, catItems] of Object.entries(categories)) {
+                        const emoji = getCategoryEmoji(category);
+                        html += `<div class="category">
+                            <div class="category-title" style="font-size: 16px;">${emoji} ${category}</div>`;
+                        catItems.forEach(item => {
+                            let itemText = item.name;
+                            if (item.quantity && item.quantity !== 1) {
+                                itemText += ` (${item.quantity}${item.unit ? ' ' + item.unit : ''})`;
+                            }
+                            html += `<div class="item">
+                                <div class="item-info">
+                                    <div class="item-name">${itemText}</div>
+                                    <div class="item-meta">${item.added_by}</div>
+                                </div>
+                                <div class="item-actions">
+                                    <button class="btn-sm btn-bought" onclick="markBought(${item.id})">✓ Bought</button>
+                                    <button class="btn-sm btn-remove" onclick="removeItem(${item.id})">✕ Remove</button>
+                                </div>
+                            </div>`;
+                        });
+                        html += '</div>';
+                    }
+                    html += '</div>';
+                }
+            }
+            document.getElementById('listContainer').innerHTML = html;
+        }
+
+        function switchView(view) {
+            currentView = view;
+            document.getElementById('btnCategory').classList.toggle('active', view === 'category');
+            document.getElementById('btnStore').classList.toggle('active', view === 'store');
+            loadList();
+        }
+
+        async function markBought(id) {
+            await fetch(`/api/bought/${id}`, { method: 'POST' });
+            loadList();
+        }
+
+        async function removeItem(id) {
+            await fetch(`/api/item/${id}`, { method: 'DELETE' });
+            loadList();
+        }
+
+        function getCategoryEmoji(category) {
+            const emojis = {
+                Dairy: '🥛', Produce: '🥬', Meat: '🥩', Bakery: '🍞',
+                Grains: '🌾', Snacks: '🍿', Beverages: '🥤', Canned: '🥫',
+                Frozen: '🧊', Household: '🧹', Other: '📦'
+            };
+            return emojis[category] || '📦';
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diff = now - date;
+            const minutes = Math.floor(diff / 60000);
+            if (minutes < 1) return 'just now';
+            if (minutes < 60) return `${minutes}m ago`;
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours}h ago`;
+            return date.toLocaleDateString();
+        }
+
+        loadList();
+        setInterval(loadList, 30000);
+    </script>
+</body>
+</html>
