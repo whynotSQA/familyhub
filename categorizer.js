@@ -1,15 +1,16 @@
-// 商品分类器
+// Item Categorizer
 const categories = {
   Dairy: ['milk', 'cheese', 'butter', 'yogurt', 'cream', 'sour cream'],
   Produce: ['apple', 'banana', 'orange', 'tomato', 'lettuce', 'carrot', 'broccoli', 'onion', 'potato', 'cucumber', 'spinach'],
-  Meat: ['chicken', 'beef', 'pork', 'fish', 'turkey', 'lamb', 'salmon', 'shrimp'],
+  Meat: ['chicken', 'beef', 'pork', 'fish', 'turkey', 'lamb', 'salmon', 'shrimp', 'tofu'],
   Bakery: ['bread', 'bagel', 'muffin', 'croissant', 'bun', 'roll'],
-  Grains: ['rice', 'pasta', 'cereal', 'oats', 'quinoa', 'flour'],
-  Snacks: ['chips', 'cookies', 'crackers', 'nuts', 'candy', 'chocolate'],
+  Grains: ['rice', 'pasta', 'cereal', 'oats', 'quinoa', 'flour', 'noodle'],
+  Snacks: ['chips', 'cookies', 'crackers', 'nuts', 'candy', 'chocolate', 'pepper', 'sugar'],
   Beverages: ['juice', 'soda', 'coffee', 'tea', 'water', 'beer', 'wine', 'drink', 'probiotic'],
   Canned: ['soup', 'beans', 'tomato sauce', 'tuna', 'corn', 'peas'],
   Frozen: ['ice cream', 'frozen vegetables', 'frozen pizza', 'frozen meal'],
-  Household: ['paper towel', 'toilet paper', 'detergent', 'soap', 'shampoo', 'toothpaste']
+  Household: ['paper towel', 'toilet paper', 'detergent', 'soap', 'shampoo', 'toothpaste'],
+  Eggs: ['egg']
 };
 
 function categorizeItem(itemName) {

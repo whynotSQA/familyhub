@@ -58,7 +58,7 @@ app.get('/api/list-by-store', (req, res) => {
     
     const byStore = {};
     items.forEach(item => {
-      const store = item.preferred_store || '未指定商店';
+      const store = item.preferred_store || 'Unspecified Store';
       if (!byStore[store]) {
         byStore[store] = {};
       }

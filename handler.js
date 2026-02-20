@@ -118,7 +118,7 @@ function showListByStore(db) {
   
   const byStore = {};
   items.forEach(item => {
-    const store = item.preferred_store || '未指定商店';
+    const store = item.preferred_store || 'Unspecified Store';
     if (!byStore[store]) {
       byStore[store] = {};
     }
@@ -129,7 +129,7 @@ function showListByStore(db) {
     byStore[store][cat].push(item);
   });
   
-  let output = `🛒 购物清单 (按商店) - ${items.length} 项\n\n`;
+  let output = `🛒 Shopping List (By Store) - ${items.length} items\n\n`;
   
   for (const [store, categories] of Object.entries(byStore)) {
     const storeItems = Object.values(categories).flat();

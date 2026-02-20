@@ -1,15 +1,28 @@
 {
-  "name": "familyhub-shopping",
-  "version": "1.0.0",
-  "description": "FamilyHub Shopping List Manager - MVP with智能建议",
-  "main": "server.js",
+  "name": "familyhub",
+  "version": "1.0.1",
+  "description": "FamilyHub - AI-powered family coordination platform for shopping lists and schedules",
+  "main": "familyhub-handler.js",
   "scripts": {
     "start": "node server.js",
-    "demo": "node test.js",
-    "interactive": "node cli.js"
+    "test:shopping": "node test-commands.js",
+    "test:schedule": "node schedule/demo.js",
+    "test:integrated": "node test-unified-handler.js"
   },
   "dependencies": {
     "better-sqlite3": "^9.2.2",
+    "chrono-node": "^2.9.0",
     "express": "^4.18.2"
-  }
+  },
+  "keywords": [
+    "family",
+    "assistant",
+    "shopping",
+    "schedule",
+    "ai",
+    "openclaw",
+    "whatsapp"
+  ],
+  "author": "FamilyHub Team",
+  "license": "MIT"
 }

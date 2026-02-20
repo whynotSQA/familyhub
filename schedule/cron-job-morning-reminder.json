@@ -1,0 +1,19 @@
+{
+  "name": "FamilyHub Morning Schedule Reminder",
+  "schedule": {
+    "kind": "cron",
+    "expr": "0 8 * * *",
+    "tz": "America/Los_Angeles"
+  },
+  "payload": {
+    "kind": "agentTurn",
+    "message": "Run the morning schedule reminder: load the schedule reminder system from ~/.openclaw/workspace/familyhub-shopping/schedule/reminder.js, call generateMorningReminder(), and if it returns a message, send it as the response. If no events today, just say HEARTBEAT_OK.",
+    "timeoutSeconds": 60
+  },
+  "delivery": {
+    "mode": "announce",
+    "channel": "whatsapp"
+  },
+  "sessionTarget": "isolated",
+  "enabled": true
+}

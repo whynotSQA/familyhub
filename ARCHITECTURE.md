@@ -222,7 +222,7 @@ CREATE INDEX idx_purchased_at_hist ON purchase_history(purchased_at);
 ### **File Structure & Responsibilities**
 
 ```
-familyhub-shopping/
+familyhub/
 │
 ├── server.js                   # 🚀 Entry point & API server
 │   ├── Express.js setup

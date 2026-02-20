@@ -1,21 +1,22 @@
-# FamilyHub Shopping List Manager 🛒
+# FamilyHub - AI Family Assistant 🏠
 
-**Version:** 1.0.0 MVP  
+**Version:** 1.0.1  
 **Status:** ✅ Production Ready  
 **Cost:** $0 (Completely Free)  
-**Last Updated:** February 19, 2026
+**Last Updated:** February 20, 2026
 
-> **An AI-powered shopping list manager that learns your family's purchasing patterns and provides intelligent suggestions.**
+> **An AI-powered family coordination platform that manages shopping lists, schedules, and daily routines through natural language interaction.**
 
 ---
 
 ## 🎯 At a Glance
 
-- ✅ **Natural Language:** Add items by simply saying "add milk"
-- 🧠 **Smart Suggestions:** AI learns your purchasing cycles and reminds you what to buy
-- 👨‍👩‍👧‍👦 **Multi-User:** Track who added each item (Mom, Dad, Emma, etc.)
-- 🏪 **Store Organization:** View your list by category or by store location
+- 🛒 **Smart Shopping Lists:** Natural language, smart suggestions, multi-user tracking
+- 📅 **Family Schedules:** Manage activities for all family members with reminders
+- ⏰ **Morning Reminders:** Daily schedule notifications at 8:00 AM
+- 👨‍👩‍👧‍👦 **Multi-Member Support:** Mom, Dad, Emma, Jeremy (easily extendable)
 - 🌐 **Modern Dashboard:** Beautiful web interface with real-time updates
+- 💬 **WhatsApp Integration:** Control everything via WhatsApp messages
 - 💰 **Zero Cost:** Completely free, no subscriptions or hidden fees
 
 ---
@@ -36,25 +37,29 @@
 
 ## 🎯 Executive Summary
 
-**FamilyHub Shopping List Manager** is the first module of the FamilyHub AI-powered family coordination platform. It transforms grocery shopping from chaos to harmony through intelligent list management, natural language interaction, and smart purchase suggestions.
+**FamilyHub** is an AI-powered family coordination platform that helps families manage daily activities through natural language interaction. Currently includes two core modules: Shopping List Management and Family Schedule Coordination, with more modules planned.
 
 ### **Target Users**
 Busy families with 2-6 members, particularly dual-income households with children aged 4-16.
 
 ### **Key Problems Solved**
+- ❌ Uncoordinated family schedules and missed activities
 - ❌ Redundant purchases & food waste
-- ❌ Scattered shopping information (notes, verbal, memory)
-- ❌ Forgetting what to buy while at the store
-- ❌ Lack of coordination between family members
+- ❌ Scattered information (notes, verbal, memory)
+- ❌ Lack of proactive reminders for daily routines
+- ❌ Poor coordination between family members
 
 ### **Key Differentiator**
-Unlike generic shopping list apps, FamilyHub Shopping List Manager:
-- 🧠 Learns your family's purchasing patterns
-- 🤖 Provides intelligent suggestions based on history
-- 👨‍👩‍👧‍👦 Tracks who added what (multi-user awareness)
-- 🏪 Organizes by store location for efficient shopping
-- 💬 Natural language interaction (English & Chinese)
-- 📊 Web Dashboard with dual views (By Category / By Store)
+FamilyHub doesn't just store data—it actively helps coordinate family life through AI-powered natural language understanding, smart reminders, and proactive suggestions.
+
+**What makes FamilyHub unique:**
+- 🧠 Unified platform for shopping AND schedules
+- 🤖 Intelligent natural language processing
+- 👨‍👩‍👧‍👦 Multi-member family coordination
+- ⏰ Proactive morning reminders
+- 💬 WhatsApp integration for easy access
+- 📊 Web Dashboard for visual management
+- 🔄 Automatic routing between modules
 
 ---
 
@@ -69,14 +74,15 @@ Unlike generic shopping list apps, FamilyHub Shopping List Manager:
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/familyhub-shopping.git
-cd familyhub-shopping
+git clone https://github.com/YOUR_USERNAME/familyhub.git
+cd familyhub
 
 # Install dependencies
 npm install
 
-# Initialize database
+# Initialize databases
 node init-db.js
+node schedule/init-schedule-db.js
 
 # Start server
 node server.js
@@ -87,7 +93,7 @@ node server.js
 
 ### **Usage Examples**
 
-#### **Via Chat/WhatsApp:**
+#### **Shopping via WhatsApp:**
 ```
 "add milk to shopping list"
 "show shopping list"
@@ -95,9 +101,17 @@ node server.js
 "what should I buy?"
 ```
 
+#### **Schedule via WhatsApp:**
+```
+"Emma has piano lesson next Tuesday at 3pm"
+"What's Emma's schedule today?"
+"Jeremy has basketball practice tomorrow at 4pm"
+"Show me this week's schedule"
+```
+
 #### **Via Web Dashboard:**
 - Open `http://localhost:3000/dashboard.html`
-- View by Category or by Store
+- View shopping list by Category or by Store
 - Click "Bought" to mark purchased
 - Click "Remove" to delete items
 
@@ -133,17 +147,40 @@ For detailed information, please refer to:
 ## 📂 Project Structure
 
 ```
-familyhub-shopping/
+familyhub/
 ├── README.md                   # This file - Project overview
 ├── REQUIREMENTS.md             # Detailed requirements checklist
 ├── ARCHITECTURE.md             # Code & database architecture
 ├── IMPLEMENTATION_STATUS.md    # Implementation status report
-├── SUMMARY.md                  # Project completion summary
-├── GIT_COMMIT_GUIDE.md         # Git commit instructions
+├── COMPLETE_SUMMARY.md         # Project completion summary
+├── INTEGRATION_COMPLETE.md     # Integration details
+├── SKILL.md                    # OpenClaw skill documentation
 ├── .gitignore                  # Git ignore rules
 │
-├── shopping.db                 # SQLite database (excluded from git)
-├── init-db.js                  # Database initialization script
+├── shopping.db                 # Shopping list database
+├── init-db.js                  # Shopping DB initialization
+├── handler.js                  # Shopping list handler
+├── parser.js                   # Shopping command parser
+├── categorizer.js              # Item categorization
+├── suggestions.js              # Smart suggestions
+│
+├── schedule.db                 # Family schedule database (in schedule/)
+├── schedule/                   # Schedule management module
+│   ├── init-schedule-db.js     # Schedule DB initialization
+│   ├── handler.js              # Schedule handler
+│   ├── parser.js               # Schedule parser (chrono-node)
+│   ├── reminder.js             # Morning reminder logic
+│   ├── cron-job-morning-reminder.json  # Cron config
+│   ├── REMINDER_SETUP.md       # Reminder setup guide
+│   └── TEST_REPORT.md          # Test results
+│
+├── familyhub-handler.js        # Unified message handler
+├── router.js                   # Message routing logic
+│
+├── server.js                   # Express API server
+├── dashboard.html              # Web dashboard UI
+│
+└── package.json                # Node.js dependencies
 │
 ├── server.js                   # Express API server (main entry point)
 ├── handler.js                  # Core business logic (CRUD operations)
@@ -189,11 +226,29 @@ familyhub-shopping/
 #### **4. Natural Language Interface**
 - English & Chinese command support
 - Flexible command parsing
-- Chat-based interaction
-- WhatsApp integration (configured, pending pairing)
+- Chat-based interaction via OpenClaw
+- WhatsApp integration fully operational
+
+#### **5. WhatsApp Integration**
+- Real-time messaging integration
+- Natural language command processing
+- Multi-user support via phone number allowlist
+- Self-chat mode for personal use
+- Media support (up to 50MB)
+
+**Setup Instructions:**
+Configure your phone number in OpenClaw config (`~/.openclaw/openclaw.json`):
+```json
+"channels": {
+  "whatsapp": {
+    "dmPolicy": "allowlist",
+    "allowFrom": ["+1XXXXXXXXXX"],  // Replace with your number
+    "selfChatMode": true
+  }
+}
+```
 
 ### **📋 Planned Features (Phase 2/3)**
-- Voice input via WhatsApp/Telegram
 - Photo recognition (snap empty container → auto-add)
 - Barcode scanning
 - Location-based reminders
@@ -242,10 +297,10 @@ For detailed architecture documentation, see [ARCHITECTURE.md](./ARCHITECTURE.md
 - Meal planning integration
 
 ### **Phase 3: Advanced Features**
-- Voice input (WhatsApp/Telegram)
 - Photo recognition
 - Barcode scanning
 - Location-based reminders
+- Additional messaging platform integrations
 
 ### **Next Modules**
 - 3.2 Kids' Schedule Manager
